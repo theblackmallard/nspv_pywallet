@@ -16,7 +16,7 @@ from fake_useragent import UserAgent
 # Configures what coin the wallet Design is for
 with open('lib/wallet_build.txt') as json_file:
     data = json.load(json_file)
-    ico = data['Ico_logo'] # ex: "lib/kmd.ico"
+    icon = data['Icon_logo'] # ex: "lib/kmd.ico"
     pngLogo = data['Main_logo'] # ex:  'lib/KMD_Horiz_Dark.png'
     coin = data['Coin'] # ex:  'KMD-komodo'
     appTitle = data['App_title'] # ex: "Komodo nSPV pywallet"
@@ -128,10 +128,10 @@ def check_style():
         style_choice = 'equilux'
         return default_tor, default_tor_port, default_price_request, default_currency, style_choice
 
-# KMD Icon
-root.iconbitmap(ico)
+# Icon
+root.iconphoto(True, PhotoImage(file=icon))
 
-# KMD Logo
+# Logo
 img = PhotoImage(file=pngLogo).subsample(3,3)
 lbl_img = ttk.Label(root, image=img)
 
