@@ -13,13 +13,18 @@ from slickrpc import Proxy
 import requests
 from fake_useragent import UserAgent
 
-# Configures what coin the wallet Design is for
-with open('lib/wallet_build.txt') as json_file:
-    data = json.load(json_file)
-    icon = data['Icon_logo'] # ex: "lib/kmd.ico"
-    pngLogo = data['Main_logo'] # ex:  'lib/KMD_Horiz_Dark.png'
-    coin = data['Coin'] # ex:  'KMD-komodo'
-    appTitle = data['App_title'] # ex: "Komodo nSPV pywallet"
+if 'lib' in os.listdir(os.curdir):
+    libPath = (os.getcwd()+'\lib')
+    with open('{}\wallet_build.json'.format(libPath)) as json_file:
+        data = json.load(json_file)
+        icon = data['Icon_logo'] # ex: "lib/kmd.png"
+        pngLogo = data['Main_logo'] # ex:  'lib/KMD_Horiz_Dark.png'
+        coin = data['Coin'] # ex:  'KMD-komodo'
+        appTitle = data['App_title'] # ex: "Komodo nSPV pywallet"
+else:
+    print('lib path not found')
+    sys.exit()
+
 
 # daemon initialization
 try:
@@ -68,32 +73,34 @@ root.title(appTitle)
 root.resizable(False, False)
 addressBook = {}
 ua = UserAgent()
-currency_symbols = {'BTC':'₿','USD':'$','EUR':'€','KRW':'₩','GBP':'£','CAD':'$','JPY':'¥','RUB':'₽','AUD':'$','CNY':'¥','INR':'₹'}
+currency_symbols = {'BTC':'₿','USD':'$','EUR':'€','KRW':'₩','GBP':'£','CAD':'$',
+                    'JPY':'¥','RUB':'₽','AUD':'$','CNY':'¥','INR':'₹'}
 
 # Styling and Functions
 style = ttk.Style()
 
 
-class StyleTheme():
-    def equilux():
+class StyleTheme:
+    def equilux(self):
         root.set_theme('equilux', background=True)
         style.map("TButton", background=[('pressed', 'darkslategray4')])
-    def black():
+    def black(self):
         root.set_theme('black', background=True)
         style.map("TButton", background=[('pressed', 'darkslategray4')])
-    def radiance():
+    def radiance(self):
         root.set_theme('radiance', background=True)
         style.map("TButton", background=[('pressed', 'orange red')])
-    def scidGreen():
+    def scidGreen(self):
         root.set_theme('scidgreen', background=True)
         style.map("TButton", background=[('pressed', 'green2')])
-    def arc():
+    def arc(self):
         root.set_theme('arc', background=True)
         style.map("TButton", background=[('pressed', 'purple1')])
-    def kroc():
+    def kroc(self):
         root.set_theme('kroc', background=True)
         style.map("TButton", background=[('pressed', 'gray15')])
 
+        
 def save_style():
     style_pack = {}
     style_pack['default_style_choice'] = style.theme_use()
@@ -104,6 +111,7 @@ def save_style():
     with open('lib/style_choice.txt', 'w') as text_file:
         json.dump(style_pack, text_file)
 
+        
 def check_style():
     global default_tor, default_tor_port, default_price_request, default_currency
     try:
@@ -360,6 +368,7 @@ def address_book_popup():
 
     popup.mainloop()
 
+    
 # loads address book into Dictionary
 def load_address_book():
     try:
@@ -374,6 +383,7 @@ def load_address_book():
     except:
         print("Could not open address book")
 
+        
 # adds entry to address book
 def add_address_book(name, address):
     load_address_book()
@@ -385,6 +395,7 @@ def add_address_book(name, address):
     else:
         print('{} is already in address book, please use different name'.format(name))
 
+        
 # saves address book to CSV
 def save_address_book(addressBook):
     with open('lib/address_book.csv', 'w') as f:
@@ -394,6 +405,7 @@ def save_address_book(addressBook):
             writer.writerow(entry)
             load_address_book()  # reloads address book
 
+            
 # delete entry from address book
 def delete_address_book_entry(name):
     if name in addressBook:
@@ -403,6 +415,7 @@ def delete_address_book_entry(name):
     else:
         print('{} was not found in address book'.format(name))
 
+        
 # fills 'send to address' with click from address book
 def select_item_book(event):
     address_input.delete(0, 'end')
@@ -410,6 +423,7 @@ def select_item_book(event):
     curAddress = address_book_messages.item(curItem)['values'][1]
     address_input.insert(0, curAddress)
 
+    
 # updates address book on main page
 def main_address_book():
     address_book_messages.delete(*address_book_messages.get_children())
@@ -420,6 +434,7 @@ def main_address_book():
     for name in addressBook.items():
         address_book_messages.insert('', 'end', values=[(name[0]), (name[1])])
 
+        
 # Price information
 def get_price(fiat):
     default_currency = fiat
@@ -473,6 +488,7 @@ def disable_prices():
         default_price_request = 1
         print('price disabled')
 
+        
 def select_tor_port():
     tor_popup = tkT.ThemedTk()
     tor_popup_style = ttk.Style()
@@ -510,12 +526,14 @@ def enable_tor():
         running_tor.configure(text='')
         print('Tor disabled')
 
+        
 # exit button on toolbar logs out then closes app
 def safe_close():
     nspv_logout(event=True)
     save_style()
     root.quit()
 
+    
 # Button bindings
 nspv_login_button.bind('<Button-1>', nspv_login)
 nspv_spend_button.bind('<Button-1>', nspv_send_tx)
