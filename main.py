@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# komodod -nSPV=1 -ac_reward=100000000  -ac_name=NSPV -ac_supply=10000000000 -ac_cc=2 -addressindex=1 -spentindex=1 -connect=5.9.102.210 &
-# ./komodod -nSPV=1 -addnode=5.9.253.195 &
 
 import platform, os
 from tkinter import ttk
