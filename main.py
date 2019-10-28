@@ -79,22 +79,22 @@ style = ttk.Style()
 
 
 class StyleTheme:
-    def equilux(self):
+    def equilux():
         root.set_theme('equilux', background=True)
         style.map("TButton", background=[('pressed', 'darkslategray4')])
-    def black(self):
+    def black():
         root.set_theme('black', background=True)
         style.map("TButton", background=[('pressed', 'darkslategray4')])
-    def radiance(self):
+    def radiance():
         root.set_theme('radiance', background=True)
         style.map("TButton", background=[('pressed', 'orange red')])
-    def scidGreen(self):
+    def scidGreen():
         root.set_theme('scidgreen', background=True)
         style.map("TButton", background=[('pressed', 'green2')])
-    def arc(self):
+    def arc():
         root.set_theme('arc', background=True)
         style.map("TButton", background=[('pressed', 'purple1')])
-    def kroc(self):
+    def kroc():
         root.set_theme('kroc', background=True)
         style.map("TButton", background=[('pressed', 'gray15')])
 
@@ -274,7 +274,6 @@ def confirm_broadcasting(spend_output, popup_window):
 
 def confirmation_popup(spend_output):
     popup = ttk.Tk()
-    popup.iconbitmap(ico)
     popup.wm_title("Please confirm your transaction")
     label = ttk.Label(popup, text="You're about to spend: " + str(spend_output["vout"][0]["value"]) + " " + ac_name)
     label2 = ttk.Label(popup, text="Destination address: " + str(spend_output["vout"][0]["scriptPubKey"]["addresses"][0]))
@@ -316,7 +315,6 @@ def address_book_popup():
     popup_style = ttk.Style()
     popup_style.map("TButton", background=[('pressed', 'purple1')])
     popup.set_theme('{}'.format(style.theme_use()), background=True)
-    popup.iconbitmap(ico)
     popup.wm_title("Edit Your Address Book")
     label = ttk.Label(popup, text="Edit your Address Book by adding or deleting a contact below")
     label.pack(side="top", fill="x", pady=10, padx=10)
@@ -492,7 +490,6 @@ def select_tor_port():
     tor_popup_style = ttk.Style()
     tor_popup_style.map("TButton", background=[('pressed', 'purple1')])
     tor_popup.set_theme('{}'.format(style.theme_use()), background=True)
-    tor_popup.iconbitmap(ico)
     tor_popup.wm_title("Tor Port Number")
 
     def select():
